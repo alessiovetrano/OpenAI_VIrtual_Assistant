@@ -1,11 +1,22 @@
-import json
+#define PY_SSIZE_T_CLEAN
+from youtube_search import YoutubeSearch
 import os
 import sys
-
+import re
 import openai
 import speech_recognition as sr
 from gtts import gTTS
-from playsound import playsound
+import pytube
+from pydub import AudioSegment
+
+"""
+patternsPlayAudio = [
+    r"puoi riprodurre (.*)",
+    r"puoi suonare (.*)",
+    r"metti (.*) ",
+    r"riproduci (.*)"
+]
+"""
 
 # setto lingaggio per sintetizzatore
 language = "it"
@@ -21,7 +32,6 @@ def ask(value):
     text = ""
     for prompt in old_prompts:
         text += prompt + "\n"
-
     response = openai.Completion.create(
         engine=model_engine,
         max_tokens=1024,
@@ -30,24 +40,48 @@ def ask(value):
         temperature=temperature,
         prompt=text
     )
-
     respText = response["choices"][0]["text"].strip()
     # Aggiunge la risposta alla conversazione
     old_prompts.append(respText)
-
     # Elimina i primi output per evitare di riempire la memoria
     if len(old_prompts) >= 1000:
         old_prompts.pop(0)
-
     print("Risposta: " + respText)
     Speak(respText)
+
+
+def play_yt(keyword):
+    Speak("Certo, riproduco: " + keyword)
+    search_word = keyword
+    results = YoutubeSearch(search_word, max_results=1).to_dict()
+    if len(results) > 0:
+        video_link = "https://www.youtube.com/watch?v=" + results[0]['id']
+        yt = pytube.YouTube(video_link)
+        video_file = yt.streams.get_highest_resolution().download()
+        audio_file = AudioSegment.from_file(video_file, format="mp4")
+        audio_file.export("audio.mp3", format="mp3")
+        os.system("cvlc --play-and-exit audio.mp3")
+        #RIMUOVERE I FILE
+    else:
+        print("Nessun video trovato per la ricerca:", search_word)
+
+
+def ask_custom_questions(value):
+    #espressione regolare per capire pattern
+    pattern = r"puoi riprodurre (.*)"
+    match = re.search(pattern,value)
+    if match:
+        print("Pattern trovato")
+        artist = match.group(1)
+        play_yt(artist)
+    else:
+        print("Pattern non trovato")
+        ask(value)
 
 def Speak(text):
     tts = gTTS(text=text, lang=language)
     tts.save("answer_OPENAI.mp3")
-    # utilizzo di vlc per la riproduzione utilizzando sintetizzatore di google
     os.system("cvlc --play-and-exit answer_OPENAI.mp3")
-    #playsound('answer_OPENAI.mp3', True)
 
 def hideLogs(fd=2):
     devnull = os.open(os.devnull, os.O_WRONLY)
@@ -82,7 +116,7 @@ if __name__ == '__main__':
                     print(u"Hai detto: {}".format(value).encode("utf-8"))
                 else:  # this version of Python uses unicode for strings (Python 3+)
                     print("Hai detto: {}".format(value))
-                ask(value)
+                ask_custom_questions(value)
             except sr.UnknownValueError:
                 print("Segnale non catturato")
             except sr.RequestError as e:
