@@ -49,14 +49,20 @@ def Speak(text):
     os.system("cvlc --play-and-exit answer_OPENAI.mp3")
     #playsound('answer_OPENAI.mp3', True)
 
-def hideErrors():
+def hideLogs(fd=2):
     devnull = os.open(os.devnull, os.O_WRONLY)
+    old_std = os.dup(fd)
     sys.stderr.flush()
-    os.dup2(devnull, 2)
+    os.dup2(devnull, fd)
     os.close(devnull)
+    return old_std
+
+def showLogs(old_std, fd=2):
+    os.dup2(old_std, fd)
+    os.close(old_std)
 
 if __name__ == '__main__':
-    hideErrors()
+    hideLogs()
     r = sr.Recognizer()
     m = sr.Microphone()
     with m as source:
@@ -69,7 +75,9 @@ if __name__ == '__main__':
                 audio = r.listen(source)
             print("Elaborazione in corso...")
             try:
+                old_stdout = hideLogs(1)
                 value = r.recognize_google(audio, language='it-IT', show_all=False)
+                showLogs(old_stdout, 1)
                 if str is bytes:  # this version of Python uses bytes for strings (Python 2)
                     print(u"Hai detto: {}".format(value).encode("utf-8"))
                 else:  # this version of Python uses unicode for strings (Python 3+)
