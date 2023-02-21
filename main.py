@@ -1,4 +1,4 @@
-#define PY_SSIZE_T_CLEAN
+# define PY_SSIZE_T_CLEAN
 from youtube_search import YoutubeSearch
 import os
 import sys
@@ -9,28 +9,14 @@ from gtts import gTTS
 import pytube
 from pydub import AudioSegment
 
-"""
-patternsPlayAudio = [
-    r"puoi riprodurre (.*)",
-    r"puoi suonare (.*)",
-    r"metti (.*) ",
-    r"riproduci (.*)"
-]
-
-patternDownload = [
-    r"download (.*)",
-    r"puoi scaricare (.*)",
-]
-
-"""
-
 # setto lingaggio per sintetizzatore
 language = "it"
-#setting openai
+# setting openai
 openai.api_key = "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"
 model_engine = "text-davinci-003"
 temperature = 0.5
 old_prompts = []
+
 
 def ask(value):
     # Aggiunge la richiesta alla conversazione
@@ -65,29 +51,70 @@ def play_yt(keyword):
         yt = pytube.YouTube(video_link)
         video_file = yt.streams.get_highest_resolution().download()
         audio_file = AudioSegment.from_file(video_file, format="mp4")
-        audio_file.export("audio.mp3", format="mp3")
-        os.system("cvlc --play-and-exit audio.mp3")
-        #RIMUOVERE I FILE
+        audio_file.export("tmp_audio.mp3", format="mp3")
+        os.system("cvlc --play-and-exit tmp_audio.mp3")
+        os.remove("tmp_audio.mp3")
+        #rimuovere file mp4
     else:
         print("Nessun video trovato per la ricerca:", search_word)
 
 
-def ask_custom_questions(value):
-    #espressione regolare per capire pattern
-    pattern = r"puoi riprodurre (.*)"
-    match = re.search(pattern,value)
-    if match:
-        print("Pattern trovato")
-        artist = match.group(1)
-        play_yt(artist)
+def download_yt(keyword):
+    Speak("Certo, scarico: " + keyword)
+    search_word = keyword
+    results = YoutubeSearch(search_word, max_results=1).to_dict()
+    if len(results) > 0:
+        #AGGIUNGERE PATH CARTELLA PER PLAYLIST
+        video_link = "https://www.youtube.com/watch?v=" + results[0]['id']
+        yt = pytube.YouTube(video_link)
+        video_file = yt.streams.get_highest_resolution().download()
+        audio_file = AudioSegment.from_file(video_file, format="mp4")
+        audio_file.export(video_file, format="mp3")
     else:
-        print("Pattern non trovato")
-        ask(value)
+        print("Nessun video trovato per la ricerca:", search_word)
+
+
+def diz_emilio(value):
+    print("speaking...")
+    Speak(value)
+
+
+pattern_functions = {
+    r"puoi riprodurre (.*)": play_yt,
+    r"puoi suonare (.*)": play_yt,
+    r"metti (.*) ": play_yt,
+    r"riproduci (.*)": play_yt,
+    r"download (.*)": download_yt,
+    r"puoi scaricare (.*)": download_yt,
+    r"mortimer": diz_emilio,
+    r"bellibus": diz_emilio
+}
+
+
+def ask_custom_questions(value):
+    # espressione regolare per capire pattern
+    # cerca un match in ogni pattern
+    for pattern, func in pattern_functions.items():
+        match = re.search(pattern, value)
+        if match:
+            print("Pattern trovato")
+            if func == diz_emilio:
+                func(value)
+            elif func in [play_yt, download_yt]:
+                arg = match.group(1)
+                func(arg)
+            return
+    # Nessun pattern trovato
+    print("Pattern non trovato")
+    ask(value)
+
+
 
 def Speak(text):
     tts = gTTS(text=text, lang=language)
     tts.save("answer_OPENAI.mp3")
     os.system("cvlc --play-and-exit answer_OPENAI.mp3")
+
 
 def hideLogs(fd=2):
     devnull = os.open(os.devnull, os.O_WRONLY)
@@ -97,9 +124,11 @@ def hideLogs(fd=2):
     os.close(devnull)
     return old_std
 
+
 def showLogs(old_std, fd=2):
     os.dup2(old_std, fd)
     os.close(old_std)
+
 
 if __name__ == '__main__':
     hideLogs()
@@ -116,7 +145,7 @@ if __name__ == '__main__':
             print("Elaborazione in corso...")
             old_stdout = hideLogs(1)
             try:
-                value = r.recognize_google(audio, language='it-IT', show_all=False)
+                value = r.recognize_google(audio, language='it-IT', show_all=False).lower()
                 showLogs(old_stdout, 1)
                 if str is bytes:  # this version of Python uses bytes for strings (Python 2)
                     print(u"Hai detto: {}".format(value).encode("utf-8"))
