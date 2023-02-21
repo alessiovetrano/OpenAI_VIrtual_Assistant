@@ -59,23 +59,21 @@ if __name__ == '__main__':
     hideErrors()
     r = sr.Recognizer()
     m = sr.Microphone()
-    value = None
+    with m as source:
+        r.adjust_for_ambient_noise(source, duration=3.5)
+        r.dynamic_energy_threshold = True
     try:
         while True:
-            with m as source:
-                r.adjust_for_ambient_noise(source, duration=3.5)
-                r.dynamic_energy_threshold = True
-            print("Set minimum energy threshold to {}".format(r.energy_threshold))
-            print("Ora rova a parlare...")
+            print("In ascolto...")
             with m as source:
                 audio = r.listen(source)
-            print("Segnale catturato con successo, elaborazione in corso...")
+            print("Elaborazione in corso...")
             try:
-                value = r.recognize_google(audio, language='it-IT')
+                value = r.recognize_google(audio, language='it-IT', show_all=False)
                 if str is bytes:  # this version of Python uses bytes for strings (Python 2)
-                    print(u"Hai detto {}".format(value).encode("utf-8"))
+                    print(u"Hai detto: {}".format(value).encode("utf-8"))
                 else:  # this version of Python uses unicode for strings (Python 3+)
-                    print("Hai detto {}".format(value))
+                    print("Hai detto: {}".format(value))
                 ask(value)
             except sr.UnknownValueError:
                 print("Segnale non catturato")
