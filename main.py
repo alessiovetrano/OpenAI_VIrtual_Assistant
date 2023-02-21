@@ -16,6 +16,12 @@ patternsPlayAudio = [
     r"metti (.*) ",
     r"riproduci (.*)"
 ]
+
+patternDownload = [
+    r"download (.*)",
+    r"puoi scaricare (.*)",
+]
+
 """
 
 # setto lingaggio per sintetizzatore
