@@ -108,8 +108,8 @@ if __name__ == '__main__':
             with m as source:
                 audio = r.listen(source)
             print("Elaborazione in corso...")
+            old_stdout = hideLogs(1)
             try:
-                old_stdout = hideLogs(1)
                 value = r.recognize_google(audio, language='it-IT', show_all=False)
                 showLogs(old_stdout, 1)
                 if str is bytes:  # this version of Python uses bytes for strings (Python 2)
@@ -121,5 +121,7 @@ if __name__ == '__main__':
                 print("Segnale non catturato")
             except sr.RequestError as e:
                 print("{0}".format(e))
+            finally:
+                showLogs(old_stdout, 1)
     except KeyboardInterrupt:
         pass
