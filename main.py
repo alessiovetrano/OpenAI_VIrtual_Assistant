@@ -1,31 +1,36 @@
+import os
 import openai
 import speech_recognition as sr
-import pyttsx3
+from gtts import gTTS
+from playsound import playsound
 
+
+# setto lingaggio per sintetizzatore
+language = "it"
+#setting openai
 openai.api_key = "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"
+model_engine = "text-davinci-003"
+temperature = 0.5
 
 def ask():
     response = openai.Completion.create(
-        engine="davinci",
+        engine=model_engine,
         prompt=value,
-        temperature=0.5,
-        max_tokens=500
+        max_tokens=1024,
+        n=1,
+        stop=None,
+        temperature=temperature,
     )
-    # Stampa il testo generato
-    print(response.choices[0].text)
+    print("Risposta: " + response.choices[0].text.strip())
     Speak(response.choices[0].text)
 
 
-def Speak(audio):
-    engine = pyttsx3.init()
-    voices = engine.getProperty('voices')
-    engine.setProperty('voice', voices[36].id)  # index 36 per l'ITALIANO
-    engine.setProperty('rate', 150)
-    engine.setProperty('volume', 1.0)
-    engine.say(audio)
-    engine.runAndWait()
-
-
+def Speak(text):
+    tts = gTTS(text=text, lang=language)
+    tts.save("answer_OPENAI.mp3")
+    # utilizzo di vlc per la riproduzione utilizzando sintetizzatore di google
+    os.system("cvlc answer_OPENAI.mp3")
+    #playsound('answer_OPENAI.mp3', True)
 if __name__ == '__main__':
 
     r = sr.Recognizer()
@@ -34,13 +39,13 @@ if __name__ == '__main__':
     try:
         while True:
             with m as source:
-                r.adjust_for_ambient_noise(source, duration=3)
+                r.adjust_for_ambient_noise(source, duration=3.5)
                 r.dynamic_energy_threshold = True
             print("Set minimum energy threshold to {}".format(r.energy_threshold))
-            print("Prova a parlare")
+            print("Ora rova a parlare...")
             with m as source:
                 audio = r.listen(source)
-            print("SEGNALE CATTURATO, elaborazione...")
+            print("Segnale catturato con successo, elaborazione in corso...")
             try:
                 value = r.recognize_google(audio, language='it-IT')
                 if str is bytes:  # this version of Python uses bytes for strings (Python 2)
@@ -50,7 +55,7 @@ if __name__ == '__main__':
             except sr.UnknownValueError:
                 print("Segnale non catturato")
             except sr.RequestError as e:
-                print("Uh oh! Couldn't request results from Google Speech Recognition service; {0}".format(e))
+                print("{0}".format(e))
             ask()
     except KeyboardInterrupt:
         pass
