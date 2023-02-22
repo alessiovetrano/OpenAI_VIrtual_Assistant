@@ -1,5 +1,3 @@
-import os
-
 import vlc
 from gtts import gTTS
 

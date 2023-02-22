@@ -1,8 +1,7 @@
 import pytube
 import vlc
-from pydub import AudioSegment
-from youtube_search import YoutubeSearch
 
+from youtube_search import YoutubeSearch
 from manager.tts_manager import speak
 
 
