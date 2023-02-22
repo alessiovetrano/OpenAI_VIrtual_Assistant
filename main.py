@@ -1,4 +1,7 @@
 # define PY_SSIZE_T_CLEAN
+import requests
+from googletrans import Translator
+
 from youtube_search import YoutubeSearch
 import os
 import sys
@@ -16,7 +19,12 @@ openai.api_key = "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"
 model_engine = "text-davinci-003"
 temperature = 0.5
 old_prompts = []
+#weather
+weather_api = "a26a13556f93a14df0a58e1fd6328495"
+translator = Translator()
 
+def translation(text):
+    return translator.translate(text, dest='it').text
 
 def ask(value):
     # Aggiunge la richiesta alla conversazione
@@ -40,6 +48,22 @@ def ask(value):
         old_prompts.pop(0)
     print("Risposta: " + respText)
     Speak(respText)
+
+
+def ask_weather(keyword):
+    url = f"http://api.weatherstack.com/current?access_key={weather_api}&query={keyword}"
+    response = requests.get(url)
+    data = response.json()
+    if 'current' in data:
+        temperature = data['current']['temperature']
+        weather_description = data['current']['weather_descriptions'][0]
+        #description_translated = translation(weather_description)
+        #BUG poiche weather_description è in inglese, non trovo API gratuite
+        Speak(f"Temperatura attuale a {keyword}: {temperature} gradi Celsius con le seguenti condizioni: " + weather_descripti)
+    else:
+        Speak(f"Impossibile ottenere le informazioni meteorologiche per {keyword}")
+
+
 
 
 def play_yt(keyword):
@@ -75,7 +99,6 @@ def download_yt(keyword):
 
 
 def diz_emilio(value):
-    print("speaking...")
     Speak(value)
 
 
@@ -87,7 +110,14 @@ pattern_functions = {
     r"download (.*)": download_yt,
     r"puoi scaricare (.*)": download_yt,
     r"mortimer": diz_emilio,
-    r"bellibus": diz_emilio
+    r"bellibus": diz_emilio,
+    r"puoi dirmi il meteo di (.*)": ask_weather,
+    r"puoi dirmi il meteo a (.*)": ask_weather,
+    r"dimmi il meteo a (.*)": ask_weather,
+    r"puoi dirmi il meteo attuale di (.*)": ask_weather,
+    r"meteo  di (.*)": ask_weather,
+    r"meteo (.*)": ask_weather,
+    r"meteo a (.*)": ask_weather
 }
 
 
@@ -100,7 +130,7 @@ def ask_custom_questions(value):
             print("Pattern trovato")
             if func == diz_emilio:
                 func(value)
-            elif func in [play_yt, download_yt]:
+            elif func in [play_yt, download_yt, ask_weather]:
                 arg = match.group(1)
                 func(arg)
             return
@@ -131,7 +161,7 @@ def showLogs(old_std, fd=2):
 
 
 if __name__ == '__main__':
-    hideLogs()
+    #hideLogs()
     r = sr.Recognizer()
     m = sr.Microphone()
     with m as source:
