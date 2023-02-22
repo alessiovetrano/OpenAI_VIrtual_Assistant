@@ -1,9 +1,9 @@
 import re
 
-from gpt_manager import GptManager
-from tts_manager import speak
-from weather_manager import WeatherManager
-from yt_manager import YtManager
+from manager.gpt_manager import GptManager
+from manager.tts_manager import speak
+from manager.weather_manager import WeatherManager
+from manager.yt_manager import YtManager
 
 
 class CommandManager:

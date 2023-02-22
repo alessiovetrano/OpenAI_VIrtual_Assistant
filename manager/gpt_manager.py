@@ -1,6 +1,6 @@
 import openai
 
-from tts_manager import speak
+from manager.tts_manager import speak
 
 openai.api_key = "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"
 

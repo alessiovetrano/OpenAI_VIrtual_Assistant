@@ -4,7 +4,7 @@ import pytube
 from pydub import AudioSegment
 from youtube_search import YoutubeSearch
 
-from tts_manager import speak
+from manager.tts_manager import speak
 
 
 class YtManager:

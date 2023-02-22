@@ -1,6 +1,6 @@
 import speech_recognition as sr
 
-import log_manager
+from manager import log_manager
 
 
 class SpeechToTextManager:

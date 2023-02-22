@@ -1,6 +1,6 @@
 import requests
 
-from tts_manager import speak
+from manager.tts_manager import speak
 
 weather_api = "a26a13556f93a14df0a58e1fd6328495"
 
