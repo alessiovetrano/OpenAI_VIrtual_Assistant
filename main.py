@@ -59,7 +59,7 @@ def ask_weather(keyword):
         weather_description = data['current']['weather_descriptions'][0]
         #description_translated = translation(weather_description)
         #BUG poiche weather_description è in inglese, non trovo API gratuite
-        Speak(f"Temperatura attuale a {keyword}: {temperature} gradi Celsius con le seguenti condizioni: " + weather_descripti)
+        Speak(f"Temperatura attuale a {keyword}: {temperature} gradi Celsius con le seguenti condizioni: " + weather_description)
     else:
         Speak(f"Impossibile ottenere le informazioni meteorologiche per {keyword}")
 
