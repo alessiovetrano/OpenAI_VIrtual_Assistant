@@ -30,9 +30,7 @@ class YtManager:
         if len(results) > 0:
             #AGGIUNGERE PATH CARTELLA PER PLAYLIST
             video_link = "https://www.youtube.com/watch?v=" + results[0]['id']
-            yt = pytube.YouTube(video_link)
-            video_file = yt.streams.get_highest_resolution().download()
-            audio_file = AudioSegment.from_file(video_file, format="mp4")
-            audio_file.export(video_file, format="mp3")
+            video = pytube.YouTube(video_link)
+            video.streams.get_audio_only().download(filename=video.title+".mp3")
         else:
             print("Nessun video trovato per la ricerca:", search_word)
