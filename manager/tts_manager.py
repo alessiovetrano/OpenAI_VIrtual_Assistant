@@ -3,7 +3,7 @@ import threading
 import time
 from io import BytesIO
 
-from pygame import mixer
+import pygame
 from gtts import gTTS
 
 language = "it"
@@ -30,13 +30,14 @@ def speak(text):
         threads.append(threading.Thread(target=load_phrase, args=(i, phrases[i].strip(),)))
         threads[i].start()
 
-    mixer.init()
+    pygame.mixer.init()
     for i in range(len(phrases)):
         threads[i].join()
-        mixer.music.load(streams[i], "mp3")
-        mixer.music.play()
-        while mixer.music.get_busy():
-            time.sleep(0.3)
+        audio = pygame.mixer.Sound(streams[i])
+        audio.play()
+        time.sleep(audio.get_length())
+    pygame.mixer.quit()
+    pygame.quit()
 
 
 def split_text(text):

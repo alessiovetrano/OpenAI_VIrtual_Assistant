@@ -8,12 +8,12 @@ class SpeechToTextManager:
         self.r = sr.Recognizer()
         self.m = sr.Microphone()
         with self.m as source:
-            self.r.adjust_for_ambient_noise(source, duration=3.5)
+            self.r.adjust_for_ambient_noise(source)
             self.r.dynamic_energy_threshold = True
 
     def listen(self):
-        print("In ascolto...")
         with self.m as source:
+            print("In ascolto...")
             audio = self.r.listen(source)
         print("Elaborazione in corso...")
         old_stdout = log_manager.hide_logs(1)
