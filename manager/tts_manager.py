@@ -1,16 +1,20 @@
 import re
 import threading
 import time
+from io import BytesIO
 
-import vlc
+from pygame import mixer
 from gtts import gTTS
 
 language = "it"
+streams = []
 
 
 def load_phrase(index, phrase):
     tts = gTTS(text=phrase, lang=language)
-    tts.save("answers/answer" + str(index) + ".mp3")
+    streams[index] = BytesIO()
+    tts.write_to_fp(streams[index])
+    streams[index].seek(0)
 
 
 def speak(text):
@@ -20,21 +24,19 @@ def speak(text):
         phrases = [text]
 
     threads = []
+    streams.clear()
     for i in range(len(phrases)):
+        streams.append(None)
         threads.append(threading.Thread(target=load_phrase, args=(i, phrases[i].strip(),)))
         threads[i].start()
 
+    mixer.init()
     for i in range(len(phrases)):
         threads[i].join()
-        instance = vlc.Instance()
-        player = instance.media_player_new()
-        media = instance.media_new("answers/answer" + str(i) + ".mp3")
-        media.get_mrl()
-        player.set_media(media)
-        player.play()
-        time.sleep(0.5)
-        duration = player.get_length() / 1000
-        time.sleep(duration)
+        mixer.music.load(streams[i], "mp3")
+        mixer.music.play()
+        while mixer.music.get_busy():
+            time.sleep(0.3)
 
 
 def split_text(text):
