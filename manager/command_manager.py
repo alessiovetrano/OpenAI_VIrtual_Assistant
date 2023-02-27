@@ -16,7 +16,8 @@ class CommandManager:
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)"],
             "emilio_cmds": [r"mortimer", r"bellibus"],
             "weather_cmds": [r"puoi dirmi il meteo di (.*)", r"puoi dirmi il meteo a (.*)", r"dimmi il meteo a (.*)",
-                             r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"]
+                             r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
+            "manager_audio":[r"stoppa","play"]
         }
 
     def manage(self, keyword):
@@ -36,7 +37,10 @@ class CommandManager:
                     elif group == "emilio_cmds":
                         speak(arg)
                     elif group == "weather_cmds":
-                        self.weather_manager.ask_weather(arg)
+                        self.weather_manager.ask_weather(arg),
+                    elif group == "manager_audio":
+                        print(arg)
+                        self.yt_manager.manager_audio(arg)
                     return
 
         print("Pattern non trovato!")

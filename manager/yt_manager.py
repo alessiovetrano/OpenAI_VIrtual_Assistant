@@ -48,7 +48,6 @@ class YtManager:
     def manager_audio(self, keyword):
         if self.player.get_media() is None:
             return
-
         if "pausa" or "stoppa" or "stop" in keyword:
             self.player.pause()
         elif "play" or "rimetti" in keyword:
