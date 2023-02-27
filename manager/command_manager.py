@@ -5,6 +5,7 @@ from manager.tts_manager import speak
 from manager.weather_manager import WeatherManager
 from manager.yt_manager import YtManager
 
+
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
@@ -15,8 +16,7 @@ class CommandManager:
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)"],
             "emilio_cmds": [r"mortimer", r"bellibus"],
             "weather_cmds": [r"puoi dirmi il meteo di (.*)", r"puoi dirmi il meteo a (.*)", r"dimmi il meteo a (.*)",
-                             r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
-            "manager_audio": [r"stop", r"stoppa",r"rimetti in play"]
+                             r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"]
         }
 
     def manage(self, keyword):
@@ -24,21 +24,20 @@ class CommandManager:
             for command in self.cmds[group]:
                 match = re.search(command, keyword)
                 if match:
-                    if match.group(1):
+                    if match.groups() == 1:
                         arg = match.group(1)
                     else:
-                        arg = match.string()
-                    print(arg)
+                        arg = match.string
+                    print("Pattern trovato!")
                     if group == "play_yt_cmds":
                         self.yt_manager.play_yt(arg)
                     elif group == "download_yt_cmds":
                         self.yt_manager.download_yt(arg)
                     elif group == "emilio_cmds":
                         speak(arg)
-                    elif group == "manager_audio":
-                        self.yt_manager.manager_audio(arg)
                     elif group == "weather_cmds":
                         self.weather_manager.ask_weather(arg)
                     return
+
         print("Pattern non trovato!")
         self.gpt_manager.ask(keyword)
