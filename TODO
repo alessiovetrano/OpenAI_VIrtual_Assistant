@@ -1,8 +1,7 @@
 1. Trovare un API per la gestione della traduzione (nella funzione del meteo)
 2. Trovare API per traffico e tempo per arrivare in un punto
-3. Aggiungere un TODO List attraverso la creazione di un file
-6. Aggiungere funzione di richiesta dell'ora attuale
-7. Informazioni sullo sport (live di una partita) API --> Open Football (forse gratuita)
-8. Aggiungere funzione per mandare una mail settando inzialmente il proprio account
-9. Impostare una sveglia o un timer (?)
-10. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
+3. Aggiungere funzione di richiesta dell'ora attuale
+4. Informazioni sullo sport (live di una partita) API --> Open Football (forse gratuita)
+5. Aggiungere funzione per mandare una mail settando inzialmente il proprio account
+6. Impostare una sveglia o un timer (?)
+7. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
