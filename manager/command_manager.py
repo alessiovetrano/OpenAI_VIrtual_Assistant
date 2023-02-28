@@ -1,10 +1,10 @@
 import re
 
+from manager import time_manager
 from manager.gpt_manager import GptManager
 from manager.tts_manager import speak
 from manager.weather_manager import WeatherManager
 from manager.yt_manager import YtManager
-from manager.time_manager import TimeManager
 from manager.todolist_manager import ToDoListManager
 
 
@@ -13,7 +13,6 @@ class CommandManager:
         self.yt_manager = YtManager()
         self.weather_manager = WeatherManager()
         self.gpt_manager = GptManager()
-        self.time_manager = TimeManager()
         self.todo_manager = ToDoListManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
@@ -57,9 +56,9 @@ class CommandManager:
                         print(arg)
                         self.yt_manager.manager_audio(arg)
                     elif group == "ask_time":
-                        self.time_manager.ask_time()
+                        time_manager.ask_time()
                     elif group == "ask_date":
-                        self.time_manager.ask_date()
+                        time_manager.ask_date()
                     elif group == "add_task":
                         self.todo_manager.add_task(arg)
                     elif group == "remove_task":

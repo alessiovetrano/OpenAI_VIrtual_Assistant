@@ -1,14 +1,15 @@
+import locale
+import os
 from datetime import datetime
 from manager.tts_manager import speak
 
-class TimeManager:
 
-    def __init__(self):
-        self.current_time = datetime.now()
+def ask_time():
+    current_time = datetime.now()
+    speak("Sono le ore " + current_time.strftime("%H:%M"))
 
-    def ask_time(self):
-        self.current_time = datetime.now()
-        speak(self.current_time.strftime("L'ora è " + "%H:%M:%S"))
-    def ask_date(self):
-        self.current_time = datetime.now()
-        speak("Oggi è il giorno: " + self.current_time.strftime("%Y-%m-%d"))
+
+def ask_date():
+    current_time = datetime.now()
+    locale.setlocale(locale.LC_ALL, locale.getlocale())
+    speak("Oggi è " + current_time.strftime("%A %-d %B %Y"))
