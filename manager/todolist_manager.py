@@ -1,4 +1,6 @@
-#DA RIVEDERE
+from manager.tts_manager import speak
+
+
 class ToDoListManager:
     def __init__(self):
         self.file_name = "to_do_list.txt"
@@ -11,18 +13,28 @@ class ToDoListManager:
                 pass
 
     def add_task(self, task):
+        if task.startswith("aggiungi"):
+            task = task.replace("aggiungi", "").replace("alla lista delle cose da fare", "").replace(
+                "alla mia lista delle cose da fare", "").replace("alle cose da fare", "").strip()
         self.to_do_list.append(task)
         with open(self.file_name, "a") as f:
             f.write(task + "\n")
 
-    def remove_task(self, task_index):
-        if task_index < len(self.to_do_list):
-            removed_task = self.to_do_list.pop(task_index)
+    def remove_task(self, task):
+        print("Rimozione ...")
+        if task.startswith("rimuovi") or task.startswith("elimina"):
+            task = task.replace("elimina", "").replace("rimuovi", "").replace("dalla lista delle cose da fare",
+                                                                              "").replace(
+                "dalla mia lista delle cose da fare", "").strip() + "\n"
+            print("task" + task)
+            print(self.to_do_list)
+        if task in self.to_do_list:
+            self.to_do_list.remove(task)
+            speak("Eliminato con successo")
             with open(self.file_name, "w") as f:
                 f.writelines(self.to_do_list)
-            return removed_task
-        else:
-            return None
+            return task
+        return None
 
     def get_task_list(self):
         return self.to_do_list

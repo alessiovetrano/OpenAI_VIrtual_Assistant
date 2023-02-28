@@ -5,13 +5,14 @@ from manager.tts_manager import speak
 from manager.weather_manager import WeatherManager
 from manager.yt_manager import YtManager
 from manager.time_manager import TimeManager
-
+from manager.todolist_manager import ToDoListManager
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
         self.weather_manager = WeatherManager()
         self.gpt_manager = GptManager()
         self.time_manager = TimeManager()
+        self.todo_manager = ToDoListManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)",r"scarica (.*)",r"aggiunggi"],
@@ -20,7 +21,11 @@ class CommandManager:
                              r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
             "manager_audio":[r"stoppa", r"play", r"prossima",r"precedente"],
             "ask_time" : [r"che ore sono?",r"che ora è?",r"puoi dirmi l'ora?","dimmi l'ora","puoi dirmi l'orario"],
-            "ask_date" : [r"che giorno è oggi?",r"che giorno è?",r"puoi dirmi la data di oggi",r"dimmi la data di oggi"]
+            "ask_date" : [r"che giorno è oggi?",r"che giorno è?",r"puoi dirmi la data di oggi",r"dimmi la data di oggi"],
+            "add_task" : [r"aggiungi (.*) alle cose da fare",r"aggiungi alla lista \"(.*)\"", r"aggiungi (.*) alla mia lista delle cose da fare \"(.*)\"", r"aggiungi (.*) alla lista delle cose da fare",r"aggiungi \"(.*)\" alla mia lista delle cose da fare"],
+            "remove_task" : ["rimuovi (.*) dalla lista delle cose da fare", "rimuovi (.*) delle cose da fare", "elimina il task (.*)"],
+            "get_task_list" : []
+
         }
 
     def manage(self, keyword):
@@ -48,6 +53,10 @@ class CommandManager:
                         self.time_manager.ask_time()
                     elif group == "ask_date":
                         self.time_manager.ask_date()
+                    elif group == "add_task":
+                        self.todo_manager.add_task(arg)
+                    elif group == "remove_task":
+                        self.todo_manager.remove_task(arg)
                     return
 
         print("Pattern non trovato!")
