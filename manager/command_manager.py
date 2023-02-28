@@ -24,7 +24,7 @@ class CommandManager:
             "ask_date" : [r"che giorno è oggi?",r"che giorno è?",r"puoi dirmi la data di oggi",r"dimmi la data di oggi"],
             "add_task" : [r"aggiungi (.*) alle cose da fare",r"aggiungi alla lista \"(.*)\"", r"aggiungi (.*) alla mia lista delle cose da fare \"(.*)\"", r"aggiungi (.*) alla lista delle cose da fare",r"aggiungi \"(.*)\" alla mia lista delle cose da fare"],
             "remove_task" : ["rimuovi (.*) dalla lista delle cose da fare", "rimuovi (.*) delle cose da fare", "elimina il task (.*)"],
-            "get_task_list" : []
+            "get_task_list" : [r"puoi dirmi le cose da fare",r"puoi dirmi le cose che devo fare",r"puoi dirmi la lista dele cose da fare"]
 
         }
 
@@ -57,6 +57,8 @@ class CommandManager:
                         self.todo_manager.add_task(arg)
                     elif group == "remove_task":
                         self.todo_manager.remove_task(arg)
+                    elif group == "get_task_list":
+                        self.todo_manager.get_task_list()
                     return
 
         print("Pattern non trovato!")

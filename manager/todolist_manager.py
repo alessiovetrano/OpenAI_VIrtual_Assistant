@@ -37,4 +37,4 @@ class ToDoListManager:
         return None
 
     def get_task_list(self):
-        return self.to_do_list
+        speak('\n'.join(self.to_do_list))
