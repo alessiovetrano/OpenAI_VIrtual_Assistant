@@ -6,6 +6,8 @@ from manager.weather_manager import WeatherManager
 from manager.yt_manager import YtManager
 from manager.time_manager import TimeManager
 from manager.todolist_manager import ToDoListManager
+
+
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
@@ -15,17 +17,22 @@ class CommandManager:
         self.todo_manager = ToDoListManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
-            "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)",r"scarica (.*)",r"aggiunggi"],
+            "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
             "emilio_cmds": [r"mortimer", r"bellibus"],
             "weather_cmds": [r"puoi dirmi il meteo di (.*)", r"puoi dirmi il meteo a (.*)", r"dimmi il meteo a (.*)",
                              r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
-            "manager_audio":[r"stoppa", r"play", r"prossima",r"precedente"],
-            "ask_time" : [r"che ore sono?",r"che ora è?",r"puoi dirmi l'ora?","dimmi l'ora","puoi dirmi l'orario"],
-            "ask_date" : [r"che giorno è oggi?",r"che giorno è?",r"puoi dirmi la data di oggi",r"dimmi la data di oggi"],
-            "add_task" : [r"aggiungi (.*) alle cose da fare",r"aggiungi alla lista \"(.*)\"", r"aggiungi (.*) alla mia lista delle cose da fare \"(.*)\"", r"aggiungi (.*) alla lista delle cose da fare",r"aggiungi \"(.*)\" alla mia lista delle cose da fare"],
-            "remove_task" : ["rimuovi (.*) dalla lista delle cose da fare", "rimuovi (.*) delle cose da fare", "elimina il task (.*)"],
-            "get_task_list" : [r"puoi dirmi le cose da fare",r"puoi dirmi le cose che devo fare",r"puoi dirmi la lista dele cose da fare"]
-
+            "manager_audio": [r"stoppa", r"play", r"prossima", r"precedente"],
+            "ask_time": [r"che ore sono?", r"che ora è?", r"puoi dirmi l'ora?", "dimmi l'ora", "puoi dirmi l'orario"],
+            "ask_date": [r"che giorno è oggi?", r"che giorno è?", r"puoi dirmi la data di oggi",
+                         r"dimmi la data di oggi"],
+            "add_task": [r"aggiungi (.*) alle cose da fare", r"aggiungi alla lista \"(.*)\"",
+                         r"aggiungi (.*) alla mia lista delle cose da fare \"(.*)\"",
+                         r"aggiungi (.*) alla lista delle cose da fare",
+                         r"aggiungi \"(.*)\" alla mia lista delle cose da fare"],
+            "remove_task": ["rimuovi (.*) dalla lista delle cose da fare", "rimuovi (.*) delle cose da fare",
+                            "elimina il task (.*)"],
+            "get_task_list": [r"puoi dirmi le cose da fare", r"puoi dirmi le cose che devo fare",
+                              r"puoi dirmi la lista dele cose da fare"]
         }
 
     def manage(self, keyword):
@@ -33,7 +40,7 @@ class CommandManager:
             for command in self.cmds[group]:
                 match = re.search(command, keyword)
                 if match:
-                    if match.groups() == 1:
+                    if len(match.groups()) == 1:
                         arg = match.group(1)
                     else:
                         arg = match.string

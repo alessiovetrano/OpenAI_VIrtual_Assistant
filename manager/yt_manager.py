@@ -38,7 +38,7 @@ class YtManager:
                 self.player.play()
 
     def download_yt(self, keyword):
-        speak("Certo, scarico: " + keyword)
+        speak("Certo, scarico " + keyword)
         search_word = keyword
         results = YoutubeSearch(search_word, max_results=1).to_dict()
         if len(results) > 0:
