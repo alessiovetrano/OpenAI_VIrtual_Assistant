@@ -4,20 +4,23 @@ from manager.gpt_manager import GptManager
 from manager.tts_manager import speak
 from manager.weather_manager import WeatherManager
 from manager.yt_manager import YtManager
-
+from manager.time_manager import TimeManager
 
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
         self.weather_manager = WeatherManager()
         self.gpt_manager = GptManager()
+        self.time_manager = TimeManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
-            "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)"],
+            "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)",r"scarica (.*)",r"aggiunggi"],
             "emilio_cmds": [r"mortimer", r"bellibus"],
             "weather_cmds": [r"puoi dirmi il meteo di (.*)", r"puoi dirmi il meteo a (.*)", r"dimmi il meteo a (.*)",
                              r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
-            "manager_audio":[r"stoppa","play"]
+            "manager_audio":[r"stoppa", r"play", r"prossima",r"precedente"],
+            "ask_time" : [r"che ore sono?",r"che ora è?",r"puoi dirmi l'ora?","dimmi l'ora","puoi dirmi l'orario"],
+            "ask_date" : [r"che giorno è oggi?",r"che giorno è?",r"puoi dirmi la data di oggi",r"dimmi la data di oggi"]
         }
 
     def manage(self, keyword):
@@ -41,6 +44,10 @@ class CommandManager:
                     elif group == "manager_audio":
                         print(arg)
                         self.yt_manager.manager_audio(arg)
+                    elif group == "ask_time":
+                        self.time_manager.ask_time()
+                    elif group == "ask_date":
+                        self.time_manager.ask_date()
                     return
 
         print("Pattern non trovato!")
