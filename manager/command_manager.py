@@ -8,6 +8,7 @@ from manager.yt_manager import YtManager
 from manager.todolist_manager import ToDoListManager
 from manager.news_manager import NewsManager
 from manager.live_football_manager import LiveFootball
+from manager.mail_manger import MailManager
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
@@ -16,6 +17,7 @@ class CommandManager:
         self.todo_manager = ToDoListManager()
         self.news_manager = NewsManager()
         self.live_football = LiveFootball()
+        self.mail_manager = MailManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
@@ -35,7 +37,8 @@ class CommandManager:
             "get_task_list": [r"puoi dirmi le cose da fare", r"puoi dirmi le cose che devo fare",
                               r"puoi dirmi la lista dele cose da fare"],
             "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"],
-            "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"]
+            "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
+            "send_email" : [r"manda mail"]
         }
 
     def manage(self, keyword):
@@ -73,6 +76,8 @@ class CommandManager:
                         self.news_manager.ask_news()
                     elif group == "get_match":
                         self.live_football.get_match(arg)
+                    elif group == "send_email":
+                        self.mail_manager.send_email()
                     return
 
         print("Pattern non trovato!")
