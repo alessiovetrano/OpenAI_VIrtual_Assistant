@@ -1,14 +1,11 @@
-1. Trovare un API per la gestione della traduzione (nella funzione del meteo)
-2. Trovare API per traffico e tempo per arrivare in un punto
-3. Informazioni sullo sport (live di una partita) API --> Open Football (forse gratuita)
-4. Aggiungere funzione per mandare una mail settando inzialmente il proprio account
-5. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
-6. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
-7. Daily news FUNZIONANTE da gestire meglio lo speaking (100 richieste al giorno)
-8. Crea piu playlist
-9. Crea piu todolist
-
-
+1. Trovare API per traffico e tempo per arrivare in un punto
+2. Live partitA FUNZIONANTE da testare meglio
+3. Aggiungere funzione per mandare una mail settando inzialmente il proprio account
+4. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
+5. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
+6. Daily news FUNZIONANTE da gestire meglio lo speaking (100 richieste al giorno)
+7. Crea piu playlist
+8. Crea piu todolist
 
 
 
