@@ -4,10 +4,16 @@
 4. Aggiungere funzione per mandare una mail settando inzialmente il proprio account
 5. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
 6. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
+7. Daily news FUNZIONANTE da gestire meglio lo speaking (100 richieste al giorno)
+8. Crea piu playlist
+9. Crea piu todolist
 
 
 
-**********
+
+
+
+******************************************
 Controllo remoto per samsungtv funzionante
     def start_stream(self):
         tv = SamsungTV('ip tv')
