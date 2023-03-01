@@ -29,7 +29,7 @@ class CommandManager:
             "emilio_cmds": [r"mortimer", r"bellibus"],
             "weather_cmds": [r"puoi dirmi il meteo di (.*)", r"puoi dirmi il meteo a (.*)", r"dimmi il meteo a (.*)",
                              r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
-            "manager_audio": [r"stoppa", r"play", r"prossima", r"precedente"],
+            "manager_audio": [r"stoppa", r"play", r"prossima", r"precedente"], #GESTIRE BENE I PATTERN PER ANDARE AVANTI E INDIETRO NELLE PLAYLIST
             "ask_time": [r"che ore sono?", r"che ora è?", r"puoi dirmi l'ora?", "dimmi l'ora", "puoi dirmi l'orario"],
             "ask_date": [r"che giorno è oggi?", r"che giorno è?", r"puoi dirmi la data di oggi",
                          r"dimmi la data di oggi"],
@@ -40,8 +40,8 @@ class CommandManager:
             "remove_task": ["rimuovi (.*) dalla lista delle cose da fare", "rimuovi (.*) delle cose da fare",
                             "elimina il task (.*)"],
             "get_task_list": [r"puoi dirmi le cose da fare", r"puoi dirmi le cose che devo fare",
-                              r"puoi dirmi la lista dele cose da fare"],
-            "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"],
+                              r"puoi dirmi la lista delLe cose da fare"],
+            "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"], #DA RIVEDERE LO SPEAKING
             "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
             "send_email" : [r"manda mail"], #DA RIVEDERE
             "get_carrier" : [r"traccia pacco"] #DA RIVEDERE
@@ -66,7 +66,6 @@ class CommandManager:
                     elif group == "weather_cmds":
                         self.weather_manager.ask_weather(arg),
                     elif group == "manager_audio":
-                        print(arg)
                         self.yt_manager.manager_audio(arg)
                     elif group == "ask_time":
                         time_manager.ask_time()

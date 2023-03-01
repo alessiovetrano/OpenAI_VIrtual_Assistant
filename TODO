@@ -1,11 +1,8 @@
 1. Trovare API per traffico e tempo per arrivare in un punto
-2. Live partitA FUNZIONANTE da testare meglio
-3. Aggiungere funzione per mandare una mail settando inzialmente il proprio account
-4. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
-5. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
-6. Daily news FUNZIONANTE da gestire meglio lo speaking (100 richieste al giorno)
-7. Crea piu playlist
-8. Crea piu todolist
+2. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
+3. Vedere se è possibile avere informazioni sul meteo anche per giorni seguenti
+4. Crea piu playlist
+5. Crea piu todolist
 
 
 
