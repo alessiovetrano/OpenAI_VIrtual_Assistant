@@ -9,6 +9,10 @@ from manager.todolist_manager import ToDoListManager
 from manager.news_manager import NewsManager
 from manager.live_football_manager import LiveFootball
 from manager.mail_manger import MailManager
+from manager.shipment_manager import ShipmentManager
+
+
+
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
@@ -18,6 +22,7 @@ class CommandManager:
         self.news_manager = NewsManager()
         self.live_football = LiveFootball()
         self.mail_manager = MailManager()
+        self.ship_manager = ShipmentManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
@@ -38,7 +43,8 @@ class CommandManager:
                               r"puoi dirmi la lista dele cose da fare"],
             "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"],
             "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
-            "send_email" : [r"manda mail"]
+            "send_email" : [r"manda mail"], #DA RIVEDERE
+            "get_carrier" : [r"traccia pacco"] #DA RIVEDERE
         }
 
     def manage(self, keyword):
@@ -78,6 +84,8 @@ class CommandManager:
                         self.live_football.get_match(arg)
                     elif group == "send_email":
                         self.mail_manager.send_email()
+                    elif group == "get_carrier":
+                        self.ship_manager.get_carrier()
                     return
 
         print("Pattern non trovato!")
