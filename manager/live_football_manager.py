@@ -21,6 +21,6 @@ class LiveFootball:
             if team_name in [home_team, away_team]:
                 home_score = fixture['goals']['home']
                 away_score = fixture['goals']['away']
-                speak("Il risultato attuale è {home_team} {home_score} {away_team} {away_score}")
+                speak(f"Il risultato attuale è {home_team} {home_score} {away_team} {away_score}")
             else:
                 print("Nessuna squadra")
