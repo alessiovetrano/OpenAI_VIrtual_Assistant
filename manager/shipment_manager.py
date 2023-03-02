@@ -65,7 +65,7 @@ class ShipmentManager:
                     luogo = text
                     string_track = f"Data e ora: {ora} | Stato: {stato} | Luogo: {luogo}"
                     tracking_info.append(string_track)
-        print(tracking_info[-1])
+        speak(tracking_info[-1])
 
     def get_gls_tracking_info(self, tracking_code):
         locpartenza = tracking_code[:2]
@@ -85,4 +85,4 @@ class ShipmentManager:
             tracking_data.append(string_track)
         tracking_data.pop(0)
         tracking_data.reverse()
-        print(tracking_data[-1])
+        speak(tracking_data[-1])

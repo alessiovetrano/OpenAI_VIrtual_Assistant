@@ -11,16 +11,19 @@ class LiveFootball:
         }
 
     def get_match(self, team_name):
-        team_name = team_name.capitalize()
+        team_name = team_name.title()
+
+        if team_name == 'Psv':
+            team_name = 'PSV Eindhoven'
+
         response = requests.get(self.url, headers=self.headers)
         data = response.json()
 
         for fixture in data["response"]:
             home_team = fixture["teams"]["home"]["name"]
             away_team = fixture["teams"]["away"]["name"]
+            print([home_team,away_team])
             if team_name in [home_team, away_team]:
                 home_score = fixture['goals']['home']
                 away_score = fixture['goals']['away']
                 speak(f"Il risultato attuale è {home_team} {home_score} {away_team} {away_score}")
-            else:
-                print("Nessuna squadra")
