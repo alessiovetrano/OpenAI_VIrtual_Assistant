@@ -2,17 +2,15 @@ import re
 from manager.tts_manager import speak
 import requests
 from bs4 import BeautifulSoup
+from requests_html import HTMLSession
 
 '''PER PROVARE FUNZIONAMENTO
-
 020460289787 --> bartolini
 IC829I289998 | 1C7321I034635 | 1P73C50591948 --> POSTE ITALIANE/SDA
-
 '''
-
 class ShipmentManager:
     def get_carrier(self):
-        tracking_number = '1P73C50591948'
+        tracking_number = 'M5630206303'
         carrier = None
         if tracking_number.startswith('1Z'):  # FUNZIONA
             carrier = 'UPS'
@@ -20,17 +18,16 @@ class ShipmentManager:
             carrier = 'DHL'
         elif re.match(r'^[A-Za-z]{2}[0-9]{9}[A-Za-z]{2}$', tracking_number):
             carrier = 'FedEx'
-        elif re.match(r'^[0-9]{13}$', tracking_number):
+        elif re.match(r'^M[0-9]{10}$', tracking_number):
             carrier = 'GLS'
+            self.get_gls_tracking_info(tracking_number)
         elif re.match(r'^[0-9]{9}$', tracking_number) or re.match(r'^[0-9]{12}$', tracking_number):  # FUNZIONA
             carrier = 'Bartolini'
-            # print("OK")
             self.get_bartolini_tracking_info(tracking_number)
         elif re.match(r'^IT[0-9]{10}$', tracking_number):  # FUNZIONA
             carrier = 'Amazon'
-        #elif re.match(r'^IC[A-Z0-9]{10}$', tracking_number) or re.match(r'^1[C|P][0-9A-Z]{11}$',tracking_number):
-        elif re.match(r'^[1|I][C|P][0-9A-Z]{10}[0-9]*$', tracking_number):  # FUNZIONA
-            carrier = 'Poste Italiane/SDA'
+        elif re.match(r'^[1|I][C|P][0-9A-Z]{10}[0-9]*$', tracking_number):
+            carrier = 'Poste Italiane'
             self.get_poste_tracking_info(tracking_number)
         print(carrier)
 
@@ -50,20 +47,42 @@ class ShipmentManager:
             latest_tracking_info[0], latest_tracking_info[1], latest_tracking_info[2], latest_tracking_info[3]))
 
     def get_poste_tracking_info(self, tracking_code):
-        url = f"https://www.poste.it/cerca/index.html#/risultati-spedizioni/{tracking_code}"
-
-        response = requests.get(url)
-
-        soup = BeautifulSoup(response.content, 'html.parser')
-        print(soup)
-        tracking_data = soup.find('div', {'class': 'tracking-data'})
-
+        session = HTMLSession()
+        url = f'https://www.poste.it/cerca/index.html#/risultati-spedizioni/{tracking_code}'
+        response = session.get(url)
+        response.html.render()
+        html_content = response.html.html
+        soup = BeautifulSoup(html_content, 'html.parser')
         tracking_info = []
-        for item in tracking_data.find_all('div', {'class': 'tracking-row'}):
-            time = item.find('div', {'class': 'tracking-time'}).text.strip()
-            location = item.find('div', {'class': 'tracking-city'}).text.strip()
-            status = item.find('div', {'class': 'tracking-description'}).text.strip()
-            tracking_info.append([time, location, status])
+        for td in soup.find_all("td"):
+            for div in td.find_all("div"):
+                text = div.text.strip()
+                if re.match(r'\d{2}/\d{2}/\d{4} \d{2}.\d{2}', text):
+                    ora = text
+                elif text in ['In consegna', 'In transito', 'In lavorazione', 'Presa in carico', 'Partito dal Centro', 'Restituzione al mittente', 'Tracciatura non disponibile', 'Prodotto non registrato', 'consegnata']:
+                    stato = text
+                else:
+                    luogo = text
+                    string_track = f"Data e ora: {ora} | Stato: {stato} | Luogo: {luogo}"
+                    tracking_info.append(string_track)
+        print(tracking_info[-1])
 
-        for info in tracking_info:
-            print("Data e ora: {}\nLuogo: {}\nStato: {}\n".format(info[0], info[1], info[2]))
+    def get_gls_tracking_info(self, tracking_code):
+        locpartenza = tracking_code[:2]
+        url = 'https://www.gls-italy.com/index.php?option=com_gls&view=track_e_trace&mode=search&diretto=yes'
+        params = {'locpartenza': locpartenza, 'numsped': tracking_code[2:]}
+        response = requests.get(url, params=params)
+        soup = BeautifulSoup(response.content, 'html.parser')
+        table = soup.find('table', {'id': 'esitoSpedizioneRS'})
+        tracking_data = []
+        rows = table.find_all('tr')
+        for row in rows:
+            cols = row.find_all('td')
+            ora = cols[0].text.strip()
+            luogo = cols[1].text.strip()
+            stato = cols[2].text.strip()
+            string_track = f"Data e ora: {ora} | Stato: {stato} | Luogo: {luogo} "
+            tracking_data.append(string_track)
+        tracking_data.pop(0)
+        tracking_data.reverse()
+        print(tracking_data[-1])
