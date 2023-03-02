@@ -26,6 +26,9 @@ class MailManager:
         email_subject = re.sub("\[.*\]", source_name, email_subject)
         self.gpt_manager.clear_history(4)
 
+        print(email_subject)
+        print(email_body)
+
         # Crea un oggetto MIMEText per l'email
         msg = MIMEText(email_body)
         msg['From'] = email_from

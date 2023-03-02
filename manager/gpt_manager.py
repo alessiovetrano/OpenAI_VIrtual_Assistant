@@ -30,7 +30,6 @@ class GptManager:
         # Elimina i primi output per evitare di riempire la memoria
         if len(self.old_prompts) >= 1000:
             self.old_prompts.pop(0)
-        print("Risposta: " + respText)
         return respText
 
     def clear_history(self, num=0):

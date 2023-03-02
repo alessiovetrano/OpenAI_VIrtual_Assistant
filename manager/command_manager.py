@@ -89,4 +89,5 @@ class CommandManager:
 
         print("Pattern non trovato!")
         response = self.gpt_manager.ask(keyword)
+        print("Risposta: " + response)
         speak(response)
