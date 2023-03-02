@@ -1,7 +1,5 @@
 import openai
 
-from manager.tts_manager import speak
-
 openai.api_key = "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"
 
 
@@ -33,4 +31,11 @@ class GptManager:
         if len(self.old_prompts) >= 1000:
             self.old_prompts.pop(0)
         print("Risposta: " + respText)
-        speak(respText)
+        return respText
+
+    def clear_history(self, num=0):
+        if num == 0:
+            self.old_prompts.clear()
+        else:
+            for i in range(num):
+                self.old_prompts.pop()

@@ -18,6 +18,9 @@ def load_phrase(index, phrase):
 
 
 def speak(text):
+    if text is None:
+        return
+
     if len(text) > 50:
         phrases = split_text(text)
     else:

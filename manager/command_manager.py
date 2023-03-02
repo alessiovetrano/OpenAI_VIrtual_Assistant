@@ -21,7 +21,7 @@ class CommandManager:
         self.todo_manager = ToDoListManager()
         self.news_manager = NewsManager()
         self.live_football = LiveFootball()
-        self.mail_manager = MailManager()
+        self.mail_manager = MailManager(self.gpt_manager)
         self.ship_manager = ShipmentManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
@@ -43,7 +43,7 @@ class CommandManager:
                               r"puoi dirmi la lista delLe cose da fare"],
             "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"], #DA RIVEDERE LO SPEAKING
             "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
-            "send_email": [r"manda mail"], #DA RIVEDERE
+            "send_email": [r"manda un'email"], #DA RIVEDERE
             "get_carrier": [r"traccia pacco"] #DA RIVEDERE
         }
 
@@ -62,8 +62,7 @@ class CommandManager:
                     elif group == "download_yt_cmds":
                         self.yt_manager.download_yt(arg)
                     elif group == "emilio_cmds":
-                        arg = 'mooortiiiiimer'
-                        speak(arg)
+                        speak('mooortiiiiimer')
                     elif group == "weather_cmds":
                         self.weather_manager.ask_weather(arg),
                     elif group == "manager_audio":
@@ -83,10 +82,11 @@ class CommandManager:
                     elif group == "get_match":
                         self.live_football.get_match(arg)
                     elif group == "send_email":
-                        self.mail_manager.send_email()
+                        self.mail_manager.send_email(keyword)
                     elif group == "get_carrier":
                         self.ship_manager.get_carrier()
                     return
 
         print("Pattern non trovato!")
-        self.gpt_manager.ask(keyword)
+        response = self.gpt_manager.ask(keyword)
+        speak(response)
