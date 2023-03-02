@@ -28,7 +28,7 @@ class CommandManager:
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
             "emilio_cmds": [r"mortimer", r"bellibus"],
             "weather_cmds": [r"puoi dirmi il meteo di (.*)", r"puoi dirmi il meteo a (.*)", r"dimmi il meteo a (.*)",
-                             r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"],
+                             r"puoi dirmi il meteo attuale di (.*)", r"meteo  di (.*)", r"meteo (.*)", r"meteo a (.*)"], #TESTARE IN PIU OCCASIONI MA GESTITO IL METEO ANCHE PER IL GIORNO SEGUENTE
             "manager_audio": [r"stoppa", r"play", r"prossima", r"precedente"], #GESTIRE BENE I PATTERN PER ANDARE AVANTI E INDIETRO NELLE PLAYLIST
             "ask_time": [r"che ore sono?", r"che ora è?", r"puoi dirmi l'ora?", "dimmi l'ora", "puoi dirmi l'orario"],
             "ask_date": [r"che giorno è oggi?", r"che giorno è?", r"puoi dirmi la data di oggi",
@@ -43,8 +43,8 @@ class CommandManager:
                               r"puoi dirmi la lista delLe cose da fare"],
             "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"], #DA RIVEDERE LO SPEAKING
             "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
-            "send_email" : [r"manda mail"], #DA RIVEDERE
-            "get_carrier" : [r"traccia pacco"] #DA RIVEDERE
+            "send_email": [r"manda mail"], #DA RIVEDERE
+            "get_carrier": [r"traccia pacco"] #DA RIVEDERE
         }
 
     def manage(self, keyword):
@@ -62,6 +62,7 @@ class CommandManager:
                     elif group == "download_yt_cmds":
                         self.yt_manager.download_yt(arg)
                     elif group == "emilio_cmds":
+                        arg = 'mooortiiiiimer'
                         speak(arg)
                     elif group == "weather_cmds":
                         self.weather_manager.ask_weather(arg),
