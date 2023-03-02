@@ -4,9 +4,6 @@
 4. Crea piu playlist
 5. Crea piu todolist
 
-
-
-
 ******************************************
 Controllo remoto per samsungtv funzionante
     def start_stream(self):
