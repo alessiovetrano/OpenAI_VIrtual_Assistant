@@ -11,7 +11,7 @@ from manager.live_football_manager import LiveFootball
 from manager.mail_manger import MailManager
 from manager.shipment_manager import ShipmentManager
 from manager.waze_manager import WazeManager
-
+from manager.alarm_manager import AlarmManager
 
 class CommandManager:
     def __init__(self):
@@ -24,6 +24,7 @@ class CommandManager:
         self.mail_manager = MailManager(self.gpt_manager)
         self.ship_manager = ShipmentManager()
         self.waze_manager = WazeManager()
+        self.alarm_manager = AlarmManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
@@ -46,7 +47,8 @@ class CommandManager:
             "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
             "send_email": [r"manda un'email"], #DA RIVEDERE
             "get_carrier": [r"traccia pacco"], #DA RIVEDERE,
-            "get_traffico_info" : [r"traffico"] #PATTERN DA RIVEDERE
+            "get_traffico_info" : [r"traffico"], #PATTERN DA RIVEDERE
+            "run_alarm" : [r"sveglia"] #PATTERN DA RIVEDERE
             #RIVEDERE GLI SPEAKING
         }
 
@@ -90,6 +92,8 @@ class CommandManager:
                         self.ship_manager.get_carrier()
                     elif group == "get_traffico_info":
                         self.waze_manager.get_traffico_info()
+                    elif group == "run_alarm":
+                        self.alarm_manager.run_alarm("01:38") #MANDA ARG CON ORARIO
                     return
 
         print("Pattern non trovato!")
