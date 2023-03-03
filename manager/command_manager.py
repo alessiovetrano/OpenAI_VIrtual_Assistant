@@ -48,7 +48,8 @@ class CommandManager:
             "send_email": [r"manda un'email"], #DA RIVEDERE
             "get_carrier": [r"traccia pacco"], #DA RIVEDERE,
             "get_traffico_info" : [r"traffico"], #PATTERN DA RIVEDERE
-            "run_alarm" : [r"sveglia"] #PATTERN DA RIVEDERE
+            "run_alarm" : [r"sveglia"], #PATTERN DA RIVEDERE
+            "run_timer" : [r"timer"]#PATTERN DA RIVEDERE
             #RIVEDERE GLI SPEAKING
         }
 
@@ -94,6 +95,8 @@ class CommandManager:
                         self.waze_manager.get_traffico_info()
                     elif group == "run_alarm":
                         self.alarm_manager.run_alarm("01:38") #MANDA ARG CON ORARIO
+                    elif group == "run_timer":
+                        self.alarm_manager.run_timer(2) #MANDA ARG CON minuti
                     return
 
         print("Pattern non trovato!")

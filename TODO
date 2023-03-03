@@ -1,4 +1,4 @@
-1. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
+1. Impostare un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
 2. Crea piu playlist
 3. Crea piu todolist
 
