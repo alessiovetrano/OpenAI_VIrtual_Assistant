@@ -12,7 +12,7 @@ from manager.mail_manger import MailManager
 from manager.shipment_manager import ShipmentManager
 from manager.waze_manager import WazeManager
 from manager.alarm_manager import AlarmManager
-
+from manager.travel_manager import TravelManager
 class CommandManager:
     def __init__(self):
         self.yt_manager = YtManager()
@@ -25,6 +25,7 @@ class CommandManager:
         self.ship_manager = ShipmentManager()
         self.waze_manager = WazeManager()
         self.alarm_manager = AlarmManager()
+        self.travel_manager = TravelManager(self.gpt_manager)
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
@@ -49,8 +50,9 @@ class CommandManager:
             "get_carrier": [r"traccia pacco"], #DA RIVEDERE,
             "get_traffico_info" : [r"traffico"], #PATTERN DA RIVEDERE
             "run_alarm" : [r"sveglia"], #PATTERN DA RIVEDERE
-            "run_timer" : [r"timer"]#PATTERN DA RIVEDERE
-            #RIVEDERE GLI SPEAKING
+            "run_timer" : [r"timer"],#PATTERN DA RIVEDERE
+            "ask_travel": [r"puoi pianificarmi un viaggio di (.*) giorni a (.*)",r"pianifica un viaggio di (.*) giorni a (.*)",r"puoi pianificarmi un viaggio in (.*) giorni a (.*)",r"pianifica un viaggio in (.*) giorni a (.*)"],
+            "get_travel_info" : [r"dammi informazioni sul mio viaggio a (.*)"]
         }
 
     def manage(self, keyword):
@@ -97,6 +99,10 @@ class CommandManager:
                         self.alarm_manager.run_alarm("01:38") #MANDA ARG CON ORARIO
                     elif group == "run_timer":
                         self.alarm_manager.run_timer(2) #MANDA ARG CON minuti
+                    elif group == "ask_travel":
+                        self.travel_manager.ask_travel(keyword)
+                    elif group == "get_travel_info":
+                        self.travel_manager.get_travel_info(arg)
                     return
 
         print("Pattern non trovato!")
