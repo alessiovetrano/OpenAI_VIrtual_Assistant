@@ -10,7 +10,7 @@ from manager.news_manager import NewsManager
 from manager.live_football_manager import LiveFootball
 from manager.mail_manger import MailManager
 from manager.shipment_manager import ShipmentManager
-
+from manager.waze_manager import WazeManager
 
 
 class CommandManager:
@@ -23,6 +23,7 @@ class CommandManager:
         self.live_football = LiveFootball()
         self.mail_manager = MailManager(self.gpt_manager)
         self.ship_manager = ShipmentManager()
+        self.waze_manager = WazeManager()
         self.cmds = {
             "play_yt_cmds": [r"puoi riprodurre (.*)", r"puoi suonare (.*)", r"metti (.*) ", r"riproduci (.*)"],
             "download_yt_cmds": [r"download (.*)", r"puoi scaricare (.*)", r"scarica (.*)", r"aggiungi"],
@@ -44,7 +45,9 @@ class CommandManager:
             "ask_news": [r"dimmi le notizie",r"dimmi le notizie di oggi",r"cosa è successo oggi",r"dimmi cosa è successo oggi"], #DA RIVEDERE LO SPEAKING
             "get_match": [r"dimmi cosa sta facendo il (.*)", r"dimmi cosa sta facendo la (.*)",r"cosa sta facendo la (.*)",r"cosa sta facendo il (.*)"],
             "send_email": [r"manda un'email"], #DA RIVEDERE
-            "get_carrier": [r"traccia pacco"] #DA RIVEDERE
+            "get_carrier": [r"traccia pacco"], #DA RIVEDERE,
+            "get_traffico_info" : [r"traffico"] #PATTERN DA RIVEDERE
+            #RIVEDERE GLI SPEAKING
         }
 
     def manage(self, keyword):
@@ -85,6 +88,8 @@ class CommandManager:
                         self.mail_manager.send_email(keyword)
                     elif group == "get_carrier":
                         self.ship_manager.get_carrier()
+                    elif group == "get_traffico_info":
+                        self.waze_manager.get_traffico_info()
                     return
 
         print("Pattern non trovato!")

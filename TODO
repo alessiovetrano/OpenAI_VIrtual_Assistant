@@ -1,7 +1,6 @@
-1. Trovare API per traffico e tempo per arrivare in un punto
-2. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
-3. Crea piu playlist
-4. Crea piu todolist
+1. Impostare una sveglia o un timer --> si usa sempre time pero ipotizzo serva un thread per la gestione.
+2. Crea piu playlist
+3. Crea piu todolist
 
 ******************************************
 Controllo remoto per samsungtv funzionante
