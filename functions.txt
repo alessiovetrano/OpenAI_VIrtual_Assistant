@@ -1,0 +1,15 @@
+1.Chiedere orario
+2.Chiedere giorno attuale
+3.Chiedere meteo per oggi e giorno successivo
+4.Riproduzione di un brano con pausa e play
+5.Scaricare canzoni in un playlist, riproducibile e controllabile(prossima e precedente)
+6.Creazione di una to_do_list con possibile richiesta di lettura.
+7.Chiedere info su una partita live di calcio
+8.Mandare una mail generata da IA
+9.Tracciare un pacco (Poste/SDA/BRT/GLS)
+10.Sveglia
+11.Timer
+12.Pianificazione di un itinerario per un viaggio salvando le info in un file, in modo da poterlo riprodurre
+13.Chiedere informazioni per tempo di percorrenza per arrivare in un determinato luogo
+14.Chiedere le Daily News
+13.Risposta a tutte le domande non 'gestionali' da parte di ChatGPT
