@@ -13,3 +13,7 @@
 13.Chiedere informazioni per tempo di percorrenza per arrivare in un determinato luogo
 14.Chiedere le Daily News
 13.Risposta a tutte le domande non 'gestionali' da parte di ChatGPT
+
+
+#DA AGGIUNGERE
+1. SkyScanner con ricerca del volo piu diretto e piu economico tra due mete.
