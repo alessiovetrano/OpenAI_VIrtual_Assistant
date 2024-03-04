@@ -1,6 +1,6 @@
 import openai
 
-openai.api_key = "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"
+openai.api_key = "YOUR_KEY"
 
 
 class GptManager:
