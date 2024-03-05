@@ -31,3 +31,6 @@ Key Features:
 * ***Daily News***: The assistant provides daily news updates.
 
 * ***Answering Questions***: The assistant can respond to various types of questions.
+
+# Author
+Vetrano Alessio, 2024
