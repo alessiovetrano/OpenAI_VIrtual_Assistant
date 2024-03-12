@@ -1,0 +1,11 @@
+pygame
+gtts
+openai
+pytube
+python-vlc
+youtube_search
+bs4
+requests_html
+WazeRouteCalculator
+SpeechRecognition
+PyAudio

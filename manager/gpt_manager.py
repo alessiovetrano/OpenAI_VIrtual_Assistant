@@ -1,11 +1,11 @@
-import openai
+from openai import OpenAI
 
-openai.api_key = "YOUR_KEY"
 
+client = OpenAI(api_key="YOUR-KEY")
 
 class GptManager:
     def __init__(self):
-        self.model_engine = "text-davinci-003"
+        self.model_engine = "gpt-3.5-turbo"
         self.temperature = 0.5
         self.old_prompts = []
 
@@ -16,15 +16,16 @@ class GptManager:
         for prompt in self.old_prompts:
             text += prompt + "\n"
 
-        response = openai.Completion.create(
-            engine=self.model_engine,
+        response = client.completions.create(
+            model=self.model_engine,
             max_tokens=1024,
             n=1,
             stop=None,
             temperature=self.temperature,
             prompt=text
         )
-        respText = response["choices"][0]["text"].strip()
+        respText = response.choices[0].text.strip()
+        print(respText)
         # Aggiunge la risposta alla conversazione
         self.old_prompts.append(respText)
         # Elimina i primi output per evitare di riempire la memoria
